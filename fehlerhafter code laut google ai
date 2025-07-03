@@ -1,0 +1,25 @@
+    <div id="cart-drawer-form" class="flex-1 flex flex-column relative overflow-hidden">
+      <div class="flex-1 flex flex-column overflow-y-auto allow-scrolling">
+        <div class="cart-drawer__products transition flex-1 flex flex-column relative{% if cart.items.size == 0 %} h-full{% endif %}">
+          {%- form 'cart', cart, id: 'cart-drawer-form-block', class: 'relative h-full cart-drawer__products-form' -%}
+            {%- if cart.items.size > 0 -%}
+              <div class="drawer__block flex-1 overflow-x-hidden">
+                {%- liquid
+                  for item in cart.items
+                    capture current
+                      cycle 1, 2, 3, 4, 5, 6
+                    endcapture
+
+                    render 'cart-item', item: item, show_vendor: section.settings.show_vendor, is_last: forloop.last, current: current
+                  endfor
+                -%}
+              </div>
+            {%- else -%}
+              <div class="h-full flex flex-column justify-center">
+                {%- render 'cart-empty-state', location: 'drawer' -%}
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
